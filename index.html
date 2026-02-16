@@ -84,7 +84,15 @@ header h1{
     background:linear-gradient(45deg,#ffea00,#ff4081,#00e5ff);
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
+   
 }
+
+header{
+    position:relative;
+    overflow:hidden;
+}
+
+
 
 header p{margin-top:15px;}
 
@@ -218,13 +226,13 @@ header p{margin-top:15px;}
 
 /* CONFETE */
 #confete{
-    position:fixed;
+    position:absolute;
     top:0;
     left:0;
     width:100%;
     height:100%;
     pointer-events:none;
-    z-index:1;
+    z-index:0;
 }
 
 .pagamento-box{
@@ -261,6 +269,48 @@ header p{margin-top:15px;}
     margin-top:10px;
 }
 
+.modal-sucesso{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.7);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    opacity:0;
+    visibility:hidden;
+    transition:.3s;
+    z-index:2000;
+}
+
+.modal-sucesso.active{
+    opacity:1;
+    visibility:visible;
+}
+
+.modal-box{
+    background:#111;
+    padding:40px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 0 40px rgba(255,234,0,.5);
+    animation:pop .4s ease;
+}
+
+.modal-box button{
+    margin-top:20px;
+    padding:12px 25px;
+    border:none;
+    border-radius:50px;
+    background:linear-gradient(45deg,#ff4081,#ffea00);
+    font-weight:600;
+    cursor:pointer;
+}
+
+@keyframes pop{
+    from{transform:scale(.7);opacity:0;}
+    to{transform:scale(1);opacity:1;}
+}
+
 
 </style>
 </head>
@@ -279,9 +329,12 @@ header p{margin-top:15px;}
 </nav>
 
 <header>
+
+<canvas id="confete"></canvas>
+
 <h1>🎉 Carnaval Gelado é na LS Distribuidora 🎭</h1>
 <p>Delivery até 00h • Promoções Explosivas • Estoque Limitado</p>
-<a href="https://wa.me/5511982390439" class="btn">Pedir no WhatsApp</a>
+<a href="https://wa.me/5548998425041" class="btn">Pedir no WhatsApp</a>
 </header>
 
 <section class="carnaval-banner">
@@ -332,10 +385,12 @@ header p{margin-top:15px;}
 <button class="checkout" onclick="finalizarPedido()">Finalizar Pedido</button>
 </div>
 
-<canvas id="confete"></canvas>
 
 <script>
-/* PRODUTOS */
+/* =========================
+   PRODUTOS
+========================= */
+
 const produtos = [
 {nome:"🍺 Heineken 12un",preco:89.90},
 {nome:"🍺 Budweiser 12un",preco:79.90},
@@ -347,182 +402,263 @@ const produtos = [
 {nome:"🎭 Kit Carnaval",preco:129.90}
 ];
 
-const grid=document.getElementById("product-grid");
+const grid = document.getElementById("product-grid");
 
 produtos.forEach(prod=>{
-const card=document.createElement("div");
-card.className="card";
-card.innerHTML=`
-<h3>${prod.nome}</h3>
-<div class="price">R$ ${prod.preco.toFixed(2)}</div>
-<button class="btn" onclick="addToCart('${prod.nome}',${prod.preco})">Adicionar</button>
-`;
-grid.appendChild(card);
+    const card=document.createElement("div");
+    card.className="card";
+    card.innerHTML=`
+        <h3>${prod.nome}</h3>
+        <div class="price">R$ ${prod.preco.toFixed(2)}</div>
+        <button class="btn" onclick="addToCart('${prod.nome}',${prod.preco})">Adicionar</button>
+    `;
+    grid.appendChild(card);
 });
 
-/* CARRINHO */
-let cart=JSON.parse(localStorage.getItem("cart"))||[];
+/* =========================
+   CARRINHO
+========================= */
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 function updateCart(){
-const lista=document.getElementById("cart-items");
-lista.innerHTML="";
-let total=0;
+    const lista=document.getElementById("cart-items");
+    lista.innerHTML="";
+    let total=0;
 
-cart.forEach((item,index)=>{
-total+=item.preco;
-const li=document.createElement("li");
-li.style.display="flex";
-li.style.justifyContent="space-between";
-li.innerHTML=`
-${item.nome} - R$ ${item.preco.toFixed(2)}
-<button onclick="removeItem(${index})" style="background:red;border:none;color:white;padding:3px 6px;border-radius:5px;cursor:pointer;">x</button>
-`;
-lista.appendChild(li);
-});
+    cart.forEach((item,index)=>{
+        total+=item.preco;
+        const li=document.createElement("li");
+        li.style.display="flex";
+        li.style.justifyContent="space-between";
+        li.innerHTML=`
+            ${item.nome} - R$ ${item.preco.toFixed(2)}
+            <button onclick="removeItem(${index})" style="background:red;border:none;color:white;padding:3px 6px;border-radius:5px;cursor:pointer;">x</button>
+        `;
+        lista.appendChild(li);
+    });
 
-document.getElementById("cart-total").innerText=total.toFixed(2);
-document.getElementById("cart-count").innerText=cart.length;
-localStorage.setItem("cart",JSON.stringify(cart));
+    document.getElementById("cart-total").innerText=total.toFixed(2);
+    document.getElementById("cart-count").innerText=cart.length;
+    localStorage.setItem("cart",JSON.stringify(cart));
 }
 
 function addToCart(nome,preco){
-cart.push({nome,preco});
-updateCart();
+    cart.push({nome,preco});
+    updateCart();
 }
 
 function removeItem(index){
-cart.splice(index,1);
-updateCart();
+    cart.splice(index,1);
+    updateCart();
 }
 
 function abrirCarrinho(){
-document.getElementById("cart").classList.add("active");
-document.getElementById("overlay").classList.add("active");
+    document.getElementById("cart").classList.add("active");
+    document.getElementById("overlay").classList.add("active");
 }
 
 function fecharCarrinho(){
-document.getElementById("cart").classList.remove("active");
-document.getElementById("overlay").classList.remove("active");
+    document.getElementById("cart").classList.remove("active");
+    document.getElementById("overlay").classList.remove("active");
 }
 
+/* =========================
+   CONFETE HEADER
+========================= */
 
+const canvas = document.getElementById("confete");
+const ctx = canvas.getContext("2d");
+const header = document.querySelector("header");
 
-function finalizarPedido(){
-
-    if(cart.length === 0){
-        alert("Seu carrinho está vazio!");
-        return;
-    }
-
-    const nome = document.getElementById("nomeCliente").value;
-    const telefoneCliente = document.getElementById("telefoneCliente").value;
-    const endereco = document.getElementById("enderecoCliente").value;
-
-    if(!nome || !telefoneCliente || !endereco){
-        alert("Preencha todos os dados!");
-        return;
-    }
-
-    let total = 0;
-    let mensagem = "🛒 *NOVO PEDIDO - DISTRIBUIDORA LS* 🍻\n\n";
-
-    mensagem += "👤 Cliente: " + nome + "\n";
-    mensagem += "📞 Telefone: " + telefoneCliente + "\n";
-    mensagem += "📍 Endereço: " + endereco + "\n\n";
-
-    mensagem += "📦 *Itens do Pedido:*\n";
-
-    cart.forEach(item => {
-        mensagem += `• ${item.nome} - R$ ${item.preco.toFixed(2)}\n`;
-        total += item.preco;
-    });
-
-    // Taxa de entrega fixa (você pode alterar)
-    let taxaEntrega = 5.00;
-    total += taxaEntrega;
-
-    const pagamento = pagamentoSelect.value;
-
-    // Desconto no PIX
-
-
-    mensagem += `\n🚚 Taxa de entrega: R$ ${taxaEntrega.toFixed(2)}`;
-    mensagem += `\n💰 *Total Final: R$ ${total.toFixed(2)}*\n`;
-    mensagem += `\n💳 Pagamento: ${pagamento}`;
-
-    if(pagamento === "Dinheiro" && trocoInput.value){
-        mensagem += `\n💵 Troco para: R$ ${trocoInput.value}`;
-    }
-
-    mensagem += "\n\n⏳ Aguardando confirmação do pedido!";
-
-    const confirmar = confirm("Deseja enviar o pedido para o WhatsApp?");
-    if(!confirmar) return;
-
-    const telefoneLoja = "5511982390439"; // coloque seu número aqui
-    const url = `https://wa.me/${telefoneLoja}?text=${encodeURIComponent(mensagem)}`;
-
-    window.open(url, "_blank");
-
-    // Limpa carrinho após envio
-    cart = [];
-    updateCart();
-
-    alert("Pedido enviado com sucesso!");
-}
-
-
-
-
-
-
-
-updateCart();
-
-/* CONFETE */
-const canvas=document.getElementById("confete");
-const ctx=canvas.getContext("2d");
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
+canvas.width = header.offsetWidth;
+canvas.height = header.offsetHeight;
 
 let pieces=[];
-for(let i=0;i<150;i++){
-pieces.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-r:Math.random()*6+2,
-d:Math.random()*150,
-color:["#ffea00","#ff4081","#00e5ff","#00ff88"][Math.floor(Math.random()*4)]
-});
+
+for(let i=0;i<120;i++){
+    pieces.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        r:Math.random()*6+2,
+        d:Math.random()*150,
+        color:["#ffea00","#ff4081","#00e5ff","#00ff88"][Math.floor(Math.random()*4)]
+    });
 }
 
-function draw(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
-pieces.forEach(p=>{
-ctx.beginPath();
-ctx.arc(p.x,p.y,p.r,0,Math.PI*2,false);
-ctx.fillStyle=p.color;
-ctx.fill();
-p.y+=Math.cos(p.d)+1;
-if(p.y>canvas.height){p.y=-10;}
-});
+function drawConfete(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pieces.forEach(p=>{
+        ctx.globalAlpha = 0.2;
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle=p.color;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+
+        p.y+=1;
+        if(p.y>canvas.height){p.y=-10;}
+    });
+    requestAnimationFrame(drawConfete);
 }
 
-setInterval(draw,20);
+drawConfete();
+
+/* =========================
+   EXPLOSÃO
+========================= */
+
+function explosaoConfete(){
+
+    let explosao=[];
+
+    for(let i=0;i<80;i++){
+        explosao.push({
+            x: canvas.width/2,
+            y: canvas.height/2,
+            r: Math.random()*6+2,
+            speedX:(Math.random()-0.5)*10,
+            speedY:(Math.random()-0.5)*10,
+            color:["#ffea00","#ff4081","#00e5ff","#00ff88"][Math.floor(Math.random()*4)]
+        });
+    }
+
+    let interval=setInterval(()=>{
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+
+        explosao.forEach(p=>{
+            ctx.globalAlpha=0.8;
+            ctx.beginPath();
+            ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+            ctx.fillStyle=p.color;
+            ctx.fill();
+            ctx.globalAlpha=1;
+
+            p.x+=p.speedX;
+            p.y+=p.speedY;
+        });
+
+    },20);
+
+    setTimeout(()=>{
+        clearInterval(interval);
+        drawConfete();
+    },800);
+}
+
+/* =========================
+   PAGAMENTO
+========================= */
 
 const pagamentoSelect = document.getElementById("pagamento");
 const trocoInput = document.getElementById("troco");
 
 pagamentoSelect.addEventListener("change", function(){
     if(this.value === "Dinheiro"){
-        trocoInput.style.display = "block";
+        trocoInput.style.display="block";
     } else {
-        trocoInput.style.display = "none";
-        trocoInput.value = "";
+        trocoInput.style.display="none";
+        trocoInput.value="";
     }
 });
 
+/* =========================
+   FINALIZAR PEDIDO
+========================= */
+
+function finalizarPedido(){
+
+    if(cart.length===0){
+        alert("Seu carrinho está vazio!");
+        return;
+    }
+
+    const nome=document.getElementById("nomeCliente").value;
+    const telefone=document.getElementById("telefoneCliente").value;
+    const endereco=document.getElementById("enderecoCliente").value;
+    const pagamento=pagamentoSelect.value;
+
+    if(!nome || !telefone || !endereco){
+        alert("Preencha todos os dados!");
+        return;
+    }
+
+    let total=0;
+    let mensagem="🛒 *NOVO PEDIDO - DISTRIBUIDORA LS* 🍻\n\n";
+    mensagem+=`👤 Cliente: ${nome}\n📞 Telefone: ${telefone}\n📍 Endereço: ${endereco}\n\n`;
+    mensagem+="📦 *Itens do Pedido:*\n";
+
+    cart.forEach(item=>{
+        mensagem+=`• ${item.nome} - R$ ${item.preco.toFixed(2)}\n`;
+        total+=item.preco;
+    });
+
+    let taxaEntrega=5;
+    total+=taxaEntrega;
+
+    mensagem+=`\n🚚 Taxa de entrega: R$ ${taxaEntrega.toFixed(2)}`;
+    mensagem+=`\n💰 *Total Final: R$ ${total.toFixed(2)}*`;
+    mensagem+=`\n💳 Pagamento: ${pagamento}`;
+
+    if(pagamento==="Dinheiro" && trocoInput.value){
+        mensagem+=`\n💵 Troco para: R$ ${trocoInput.value}`;
+    }
+
+    mensagem+="\n\n⏳ Aguardando confirmação do pedido!";
+
+    const confirmar=confirm("Deseja enviar o pedido para o WhatsApp?");
+    if(!confirmar) return;
+
+    explosaoConfete();
+
+    if(navigator.vibrate){
+        navigator.vibrate([200,100,200]);
+    }
+
+    const audio=document.getElementById("somSucesso");
+    audio.currentTime=0;
+    audio.play().catch(()=>{});
+
+    const telefoneLoja="5548998425041";
+    const url=`https://wa.me/${telefoneLoja}?text=${encodeURIComponent(mensagem)}`;
+
+    setTimeout(()=>{
+        window.open(url,"_blank");
+        mostrarModal();
+    },600);
+
+    cart=[];
+    updateCart();
+}
+
+/* =========================
+   MODAL
+========================= */
+
+function mostrarModal(){
+    document.getElementById("modalSucesso").classList.add("active");
+}
+
+function fecharModal(){
+    document.getElementById("modalSucesso").classList.remove("active");
+}
+
+updateCart();
 </script>
+<!-- MODAL SUCESSO -->
+<div id="modalSucesso" class="modal-sucesso">
+    <div class="modal-box">
+        <h2>🎉 Pedido Enviado!</h2>
+        <p>Seu pedido foi enviado para o WhatsApp.<br>
+        Aguarde a confirmação da loja.</p>
+        <button onclick="fecharModal()">Fechar</button>
+    </div>
+</div>
+
+<!-- SOM -->
+<audio id="somSucesso">
+    <source src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3" type="audio/mpeg">
+</audio>
 
 </body>
 </html>
