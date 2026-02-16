@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Adega Carnaval</title>
+<title>Distribuidora de Bebias LS</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
@@ -226,6 +226,42 @@ header p{margin-top:15px;}
     pointer-events:none;
     z-index:1;
 }
+
+.pagamento-box{
+    margin-top:15px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.pagamento-box select,
+.pagamento-box input{
+    padding:10px;
+    border-radius:8px;
+    border:none;
+    font-size:14px;
+}
+
+.checkout-box{
+    margin-top:20px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.checkout-box input,
+.checkout-box select{
+    padding:12px;
+    border-radius:10px;
+    border:none;
+    font-size:14px;
+}
+
+.checkout-box h3{
+    margin-top:10px;
+}
+
+
 </style>
 </head>
 <body>
@@ -243,7 +279,7 @@ header p{margin-top:15px;}
 </nav>
 
 <header>
-<h1>🎉 Carnaval Gelado em Carapicuíba 🎭</h1>
+<h1>🎉 Carnaval Gelado é na LS Distribuidora 🎭</h1>
 <p>Delivery até 00h • Promoções Explosivas • Estoque Limitado</p>
 <a href="https://wa.me/5511982390439" class="btn">Pedir no WhatsApp</a>
 </header>
@@ -266,6 +302,33 @@ header p{margin-top:15px;}
 </div>
 <ul id="cart-items"></ul>
 <p><strong>Total: R$ <span id="cart-total">0.00</span></strong></p>
+
+
+
+<div class="checkout-box">
+
+    <h3>Seus Dados</h3>
+
+    <input type="text" id="nomeCliente" placeholder="Seu nome" required>
+    <input type="text" id="telefoneCliente" placeholder="Seu telefone" required>
+    <input type="text" id="enderecoCliente" placeholder="Endereço de entrega" required>
+
+    <h3>Forma de Pagamento</h3>
+
+<select id="pagamento">
+    <option value="PIX">PIX </option>
+    <option value="Dinheiro">Dinheiro</option>
+    <option value="Crédito">Cartão de Crédito</option>
+    <option value="Débito">Cartão de Débito</option>
+</select>
+
+
+    <input type="text" id="troco" placeholder="Precisa de troco? Para quanto?" style="display:none;">
+
+</div>
+
+
+
 <button class="checkout" onclick="finalizarPedido()">Finalizar Pedido</button>
 </div>
 
@@ -342,25 +405,77 @@ document.getElementById("cart").classList.remove("active");
 document.getElementById("overlay").classList.remove("active");
 }
 
+
+
 function finalizarPedido(){
-if(cart.length===0){alert("Carrinho vazio!");return;}
 
-let msg="🎭 *Pedido Carnaval* %0A%0A";
-let total=0;
+    if(cart.length === 0){
+        alert("Seu carrinho está vazio!");
+        return;
+    }
 
-cart.forEach(item=>{
-msg+=`• ${item.nome} - R$ ${item.preco.toFixed(2)} %0A`;
-total+=item.preco;
-});
+    const nome = document.getElementById("nomeCliente").value;
+    const telefoneCliente = document.getElementById("telefoneCliente").value;
+    const endereco = document.getElementById("enderecoCliente").value;
 
-msg+=`%0A💰 Total: R$ ${total.toFixed(2)}`;
+    if(!nome || !telefoneCliente || !endereco){
+        alert("Preencha todos os dados!");
+        return;
+    }
 
-window.open(`https://wa.me/5511982390439?text=${msg}`,"_blank");
+    let total = 0;
+    let mensagem = "🛒 *NOVO PEDIDO - DISTRIBUIDORA LS* 🍻\n\n";
 
-cart=[];
-updateCart();
-fecharCarrinho();
+    mensagem += "👤 Cliente: " + nome + "\n";
+    mensagem += "📞 Telefone: " + telefoneCliente + "\n";
+    mensagem += "📍 Endereço: " + endereco + "\n\n";
+
+    mensagem += "📦 *Itens do Pedido:*\n";
+
+    cart.forEach(item => {
+        mensagem += `• ${item.nome} - R$ ${item.preco.toFixed(2)}\n`;
+        total += item.preco;
+    });
+
+    // Taxa de entrega fixa (você pode alterar)
+    let taxaEntrega = 5.00;
+    total += taxaEntrega;
+
+    const pagamento = pagamentoSelect.value;
+
+    // Desconto no PIX
+
+
+    mensagem += `\n🚚 Taxa de entrega: R$ ${taxaEntrega.toFixed(2)}`;
+    mensagem += `\n💰 *Total Final: R$ ${total.toFixed(2)}*\n`;
+    mensagem += `\n💳 Pagamento: ${pagamento}`;
+
+    if(pagamento === "Dinheiro" && trocoInput.value){
+        mensagem += `\n💵 Troco para: R$ ${trocoInput.value}`;
+    }
+
+    mensagem += "\n\n⏳ Aguardando confirmação do pedido!";
+
+    const confirmar = confirm("Deseja enviar o pedido para o WhatsApp?");
+    if(!confirmar) return;
+
+    const telefoneLoja = "5511982390439"; // coloque seu número aqui
+    const url = `https://wa.me/${telefoneLoja}?text=${encodeURIComponent(mensagem)}`;
+
+    window.open(url, "_blank");
+
+    // Limpa carrinho após envio
+    cart = [];
+    updateCart();
+
+    alert("Pedido enviado com sucesso!");
 }
+
+
+
+
+
+
 
 updateCart();
 
@@ -394,6 +509,19 @@ if(p.y>canvas.height){p.y=-10;}
 }
 
 setInterval(draw,20);
+
+const pagamentoSelect = document.getElementById("pagamento");
+const trocoInput = document.getElementById("troco");
+
+pagamentoSelect.addEventListener("change", function(){
+    if(this.value === "Dinheiro"){
+        trocoInput.style.display = "block";
+    } else {
+        trocoInput.style.display = "none";
+        trocoInput.value = "";
+    }
+});
+
 </script>
 
 </body>
