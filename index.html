@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adega Carnaval</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --primary:#ffea00;
+    --primary-dark:#ff4081;
+    --bg1:#1a0033;
+    --bg2:#330066;
+    --card:#1f1f2e;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:linear-gradient(135deg,var(--bg1),var(--bg2),#000);
+    color:white;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+/* NAV */
+nav{
+    position:fixed;
+    width:100%;
+    background:rgba(0,0,0,0.8);
+    backdrop-filter:blur(10px);
+    z-index:1000;
+}
+
+.nav-content{
+    max-width:1200px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 20px;
+}
+
+nav h2{color:var(--primary);}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin-left:20px;
+}
+
+.cart-btn{
+    position:relative;
+    background:none;
+    border:none;
+    color:white;
+    font-size:22px;
+    cursor:pointer;
+}
+
+.cart-count{
+    position:absolute;
+    top:-8px;
+    right:-10px;
+    background:var(--primary);
+    color:black;
+    font-size:12px;
+    font-weight:700;
+    padding:3px 7px;
+    border-radius:50px;
+}
+
+/* HEADER */
+header{
+    padding-top:130px;
+    padding-bottom:100px;
+    text-align:center;
+}
+
+header h1{
+    font-size:42px;
+    background:linear-gradient(45deg,#ffea00,#ff4081,#00e5ff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+header p{margin-top:15px;}
+
+.btn{
+    display:inline-block;
+    margin-top:25px;
+    padding:14px 30px;
+    border-radius:50px;
+    background:linear-gradient(45deg,#ff4081,#ffea00);
+    color:black;
+    font-weight:600;
+    text-decoration:none;
+    transition:.3s;
+    cursor:pointer;
+}
+
+.btn:hover{transform:scale(1.1);}
+
+/* BANNER */
+.carnaval-banner{
+    background:linear-gradient(90deg,#ff0080,#ffea00,#00e5ff);
+    text-align:center;
+    color:#000;
+    padding:15px;
+    font-weight:700;
+    animation: brilho 2s infinite alternate;
+}
+
+@keyframes brilho{
+    0%{filter:brightness(1);}
+    100%{filter:brightness(1.5);}
+}
+
+/* SECTION */
+.section{
+    padding:80px 20px;
+    text-align:center;
+}
+
+.section h2{
+    color:var(--primary);
+    margin-bottom:40px;
+}
+
+/* GRID */
+.grid{
+    max-width:1200px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:var(--card);
+    padding:25px;
+    border-radius:20px;
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 0 25px rgba(255,234,0,.4);
+}
+
+.price{
+    color:var(--primary);
+    font-size:20px;
+    margin:15px 0;
+}
+
+/* CARRINHO */
+.overlay{
+    position:fixed;
+    top:0;left:0;
+    width:100%;height:100%;
+    background:rgba(0,0,0,.6);
+    backdrop-filter:blur(5px);
+    opacity:0;visibility:hidden;
+    transition:.3s;
+    z-index:998;
+}
+
+.overlay.active{opacity:1;visibility:visible;}
+
+.cart{
+    position:fixed;
+    top:0;
+    right:-400px;
+    width:350px;
+    height:100vh;
+    background:#111;
+    padding:25px;
+    transition:.4s;
+    z-index:999;
+    display:flex;
+    flex-direction:column;
+}
+
+.cart.active{right:0;}
+
+.cart-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.close-cart{
+    background:none;
+    border:none;
+    color:white;
+    font-size:20px;
+    cursor:pointer;
+}
+
+#cart-items{
+    flex:1;
+    overflow-y:auto;
+    margin-bottom:15px;
+}
+
+.checkout{
+    background:var(--primary);
+    border:none;
+    padding:12px;
+    border-radius:10px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+/* CONFETE */
+#confete{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    z-index:1;
+}
+</style>
+</head>
+<body>
+
+<nav>
+<div class="nav-content">
+<h2>🎭 Adega Carnaval</h2>
+<div>
+<a href="#combos">Combos</a>
+<button class="cart-btn" onclick="abrirCarrinho()">🛒
+<span class="cart-count" id="cart-count">0</span>
+</button>
+</div>
+</div>
+</nav>
+
+<header>
+<h1>🎉 Carnaval Gelado em Carapicuíba 🎭</h1>
+<p>Delivery até 00h • Promoções Explosivas • Estoque Limitado</p>
+<a href="https://wa.me/5511999999999" class="btn">Pedir no WhatsApp</a>
+</header>
+
+<section class="carnaval-banner">
+🔥 ESPECIAL DE CARNAVAL • ENTREGA TURBINADA • OFERTAS LIMITADAS 🔥
+</section>
+
+<section class="section" id="combos">
+<h2>Combos do Bloco</h2>
+<div class="grid" id="product-grid"></div>
+</section>
+
+<div class="overlay" id="overlay" onclick="fecharCarrinho()"></div>
+
+<div class="cart" id="cart">
+<div class="cart-header">
+<h3>🛒 Seu Carrinho</h3>
+<button class="close-cart" onclick="fecharCarrinho()">✖</button>
+</div>
+<ul id="cart-items"></ul>
+<p><strong>Total: R$ <span id="cart-total">0.00</span></strong></p>
+<button class="checkout" onclick="finalizarPedido()">Finalizar Pedido</button>
+</div>
+
+<canvas id="confete"></canvas>
+
+<script>
+/* PRODUTOS */
+const produtos = [
+{nome:"🍺 Heineken 12un",preco:89.90},
+{nome:"🍺 Budweiser 12un",preco:79.90},
+{nome:"🥃 Red Label + Energético",preco:119.90},
+{nome:"🥃 Black Label + Energético",preco:179.90},
+{nome:"🍹 Smirnoff + Refri",preco:59.90},
+{nome:"🍹 Gin + Tônica + Limão",preco:99.90},
+{nome:"🎉 Combo Bloco",preco:149.90},
+{nome:"🎭 Kit Carnaval",preco:129.90}
+];
+
+const grid=document.getElementById("product-grid");
+
+produtos.forEach(prod=>{
+const card=document.createElement("div");
+card.className="card";
+card.innerHTML=`
+<h3>${prod.nome}</h3>
+<div class="price">R$ ${prod.preco.toFixed(2)}</div>
+<button class="btn" onclick="addToCart('${prod.nome}',${prod.preco})">Adicionar</button>
+`;
+grid.appendChild(card);
+});
+
+/* CARRINHO */
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
+
+function updateCart(){
+const lista=document.getElementById("cart-items");
+lista.innerHTML="";
+let total=0;
+
+cart.forEach((item,index)=>{
+total+=item.preco;
+const li=document.createElement("li");
+li.style.display="flex";
+li.style.justifyContent="space-between";
+li.innerHTML=`
+${item.nome} - R$ ${item.preco.toFixed(2)}
+<button onclick="removeItem(${index})" style="background:red;border:none;color:white;padding:3px 6px;border-radius:5px;cursor:pointer;">x</button>
+`;
+lista.appendChild(li);
+});
+
+document.getElementById("cart-total").innerText=total.toFixed(2);
+document.getElementById("cart-count").innerText=cart.length;
+localStorage.setItem("cart",JSON.stringify(cart));
+}
+
+function addToCart(nome,preco){
+cart.push({nome,preco});
+updateCart();
+}
+
+function removeItem(index){
+cart.splice(index,1);
+updateCart();
+}
+
+function abrirCarrinho(){
+document.getElementById("cart").classList.add("active");
+document.getElementById("overlay").classList.add("active");
+}
+
+function fecharCarrinho(){
+document.getElementById("cart").classList.remove("active");
+document.getElementById("overlay").classList.remove("active");
+}
+
+function finalizarPedido(){
+if(cart.length===0){alert("Carrinho vazio!");return;}
+
+let msg="🎭 *Pedido Carnaval* %0A%0A";
+let total=0;
+
+cart.forEach(item=>{
+msg+=`• ${item.nome} - R$ ${item.preco.toFixed(2)} %0A`;
+total+=item.preco;
+});
+
+msg+=`%0A💰 Total: R$ ${total.toFixed(2)}`;
+
+window.open(`https://wa.me/5511999999999?text=${msg}`,"_blank");
+
+cart=[];
+updateCart();
+fecharCarrinho();
+}
+
+updateCart();
+
+/* CONFETE */
+const canvas=document.getElementById("confete");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let pieces=[];
+for(let i=0;i<150;i++){
+pieces.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*6+2,
+d:Math.random()*150,
+color:["#ffea00","#ff4081","#00e5ff","#00ff88"][Math.floor(Math.random()*4)]
+});
+}
+
+function draw(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+pieces.forEach(p=>{
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2,false);
+ctx.fillStyle=p.color;
+ctx.fill();
+p.y+=Math.cos(p.d)+1;
+if(p.y>canvas.height){p.y=-10;}
+});
+}
+
+setInterval(draw,20);
+</script>
+
+</body>
+</html>
