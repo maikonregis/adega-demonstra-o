@@ -312,6 +312,111 @@ header p{margin-top:15px;}
 }
 
 
+/* =========================
+   RESPONSIVIDADE
+========================= */
+
+/* Tablets */
+@media (max-width: 1024px){
+
+    .grid{
+        grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+    }
+
+    header h1{
+        font-size:32px;
+    }
+
+    .cart{
+        width:320px;
+    }
+}
+
+/* Celulares grandes */
+@media (max-width: 768px){
+
+    .nav-content{
+        flex-direction:column;
+        gap:10px;
+        text-align:center;
+    }
+
+    nav a{
+        margin-left:0;
+    }
+
+    header{
+        padding-top:160px;
+        padding-bottom:70px;
+    }
+
+    header h1{
+        font-size:26px;
+        padding:0 15px;
+    }
+
+    header p{
+        font-size:14px;
+        padding:0 15px;
+    }
+
+    .grid{
+        grid-template-columns: 1fr 1fr;
+        gap:15px;
+        padding:0 10px;
+    }
+
+    .card{
+        padding:18px;
+    }
+
+    .section{
+        padding:60px 15px;
+    }
+
+    .cart{
+        width:100%;
+        right:-100%;
+    }
+
+    .cart.active{
+        right:0;
+    }
+}
+
+/* Celulares pequenos */
+@media (max-width: 480px){
+
+    header h1{
+        font-size:22px;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .btn{
+        width:100%;
+    }
+
+    .checkout{
+        width:100%;
+    }
+
+    .checkout-box input,
+    .checkout-box select{
+        font-size:13px;
+        padding:10px;
+    }
+
+    .modal-box{
+        width:90%;
+        padding:25px;
+    }
+}
+
+
+
 </style>
 </head>
 <body>
