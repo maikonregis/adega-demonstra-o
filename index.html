@@ -77,6 +77,8 @@ header{
     padding-top:130px;
     padding-bottom:100px;
     text-align:center;
+    position:relative;
+    z-index:1;
 }
 
 header h1{
@@ -173,7 +175,7 @@ header p{margin-top:15px;}
     backdrop-filter:blur(5px);
     opacity:0;visibility:hidden;
     transition:.3s;
-    z-index:998;
+    z-index:1998;
 }
 
 .overlay.active{opacity:1;visibility:visible;}
@@ -187,7 +189,7 @@ header p{margin-top:15px;}
     background:#111;
     padding:25px;
     transition:.4s;
-    z-index:999;
+    z-index:1999;
     display:flex;
     flex-direction:column;
 }
@@ -202,11 +204,24 @@ header p{margin-top:15px;}
 }
 
 .close-cart{
-    background:none;
+    background:var(--primary-dark);
     border:none;
     color:white;
     font-size:20px;
     cursor:pointer;
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:.3s;
+    flex-shrink:0;
+}
+
+.close-cart:hover{
+    transform:rotate(90deg) scale(1.1);
+    background:#ff1a5e;
 }
 
 #cart-items{
@@ -310,7 +325,12 @@ header p{margin-top:15px;}
     from{transform:scale(.7);opacity:0;}
     to{transform:scale(1);opacity:1;}
 }
-
+.cart-btn{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight:600;
+}
 
 /* =========================
    RESPONSIVIDADE
@@ -422,7 +442,6 @@ header p{margin-top:15px;}
   font-size: 16px;      /* tamanho da fonte */
 }
 
-
 </style>
 </head>
 <body>
@@ -433,7 +452,7 @@ header p{margin-top:15px;}
 <div>
 <a href="#combos">Combos</a>
 <button class="cart-btn" onclick="abrirCarrinho()">
-🛒 <span class="carrinho-text">Carrinho</span>
+    🛒 <span class="carrinho-text">Carrinho</span>
 <span class="cart-count" id="cart-count">0</span>
 </button>
 </div>
