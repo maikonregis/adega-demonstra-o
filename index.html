@@ -415,6 +415,12 @@ header p{margin-top:15px;}
     }
 }
 
+.carrinho-text {
+  color: #ffffff;       /* muda a cor */
+  font-weight: bold;    /* deixa em negrito */
+  font-style: normal;   /* deixa em itálico */
+  font-size: 16px;      /* tamanho da fonte */
+}
 
 
 </style>
@@ -426,7 +432,8 @@ header p{margin-top:15px;}
 <h2>🎭 Distribuidora de Bebidas LS</h2>
 <div>
 <a href="#combos">Combos</a>
-<button class="cart-btn" onclick="abrirCarrinho()">🛒
+<button class="cart-btn" onclick="abrirCarrinho()">
+🛒 <span class="carrinho-text">Carrinho</span>
 <span class="cart-count" id="cart-count">0</span>
 </button>
 </div>
