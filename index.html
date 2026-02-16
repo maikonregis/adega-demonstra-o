@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Distribuidora de Bebias LS</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
 <style>
 :root{
     --primary:#ffea00;
@@ -14,9 +13,7 @@
     --bg2:#330066;
     --card:#1f1f2e;
 }
-
 *{margin:0;padding:0;box-sizing:border-box;}
-
 body{
     font-family:'Poppins',sans-serif;
     background:linear-gradient(135deg,var(--bg1),var(--bg2),#000);
@@ -24,7 +21,6 @@ body{
     min-height:100vh;
     overflow-x:hidden;
 }
-
 /* NAV */
 nav{
     position:fixed;
@@ -33,7 +29,6 @@ nav{
     backdrop-filter:blur(10px);
     z-index:1000;
 }
-
 .nav-content{
     max-width:1200px;
     margin:auto;
@@ -42,15 +37,20 @@ nav{
     align-items:center;
     padding:15px 20px;
 }
-
-nav h2{color:var(--primary);}
-
+nav h2{
+    color:var(--primary);
+    font-size:clamp(16px, 4vw, 24px);
+}
 nav a{
     color:white;
     text-decoration:none;
     margin-left:20px;
 }
-
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
 .cart-btn{
     position:relative;
     background:none;
@@ -59,7 +59,6 @@ nav a{
     font-size:22px;
     cursor:pointer;
 }
-
 .cart-count{
     position:absolute;
     top:-8px;
@@ -71,7 +70,6 @@ nav a{
     padding:3px 7px;
     border-radius:50px;
 }
-
 /* HEADER */
 header{
     padding-top:130px;
@@ -80,24 +78,17 @@ header{
     position:relative;
     z-index:1;
 }
-
 header h1{
     font-size:42px;
     background:linear-gradient(45deg,#ffea00,#ff4081,#00e5ff);
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
-   
 }
-
 header{
     position:relative;
     overflow:hidden;
 }
-
-
-
 header p{margin-top:15px;}
-
 .btn{
     display:inline-block;
     margin-top:25px;
@@ -110,9 +101,7 @@ header p{margin-top:15px;}
     transition:.3s;
     cursor:pointer;
 }
-
 .btn:hover{transform:scale(1.1);}
-
 /* BANNER */
 .carnaval-banner{
     background:linear-gradient(90deg,#ff0080,#ffea00,#00e5ff);
@@ -122,50 +111,42 @@ header p{margin-top:15px;}
     font-weight:700;
     animation: brilho 2s infinite alternate;
 }
-
 @keyframes brilho{
     0%{filter:brightness(1);}
     100%{filter:brightness(1.5);}
 }
-
 /* SECTION */
 .section{
     padding:80px 20px;
     text-align:center;
 }
-
 .section h2{
     color:var(--primary);
     margin-bottom:40px;
 }
-
 /* GRID */
 .grid{
     max-width:1200px;
     margin:auto;
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(min(100%, 250px),1fr));
     gap:25px;
 }
-
 .card{
     background:var(--card);
     padding:25px;
     border-radius:20px;
     transition:.3s;
 }
-
 .card:hover{
     transform:translateY(-8px);
     box-shadow:0 0 25px rgba(255,234,0,.4);
 }
-
 .price{
     color:var(--primary);
     font-size:20px;
     margin:15px 0;
 }
-
 /* CARRINHO */
 .overlay{
     position:fixed;
@@ -177,9 +158,7 @@ header p{margin-top:15px;}
     transition:.3s;
     z-index:1998;
 }
-
 .overlay.active{opacity:1;visibility:visible;}
-
 .cart{
     position:fixed;
     top:0;
@@ -193,16 +172,13 @@ header p{margin-top:15px;}
     display:flex;
     flex-direction:column;
 }
-
 .cart.active{right:0;}
-
 .cart-header{
     display:flex;
     justify-content:space-between;
     align-items:center;
     margin-bottom:20px;
 }
-
 .close-cart{
     background:var(--primary-dark);
     border:none;
@@ -218,18 +194,24 @@ header p{margin-top:15px;}
     transition:.3s;
     flex-shrink:0;
 }
-
 .close-cart:hover{
     transform:rotate(90deg) scale(1.1);
     background:#ff1a5e;
 }
-
 #cart-items{
     flex:1;
     overflow-y:auto;
     margin-bottom:15px;
 }
-
+#cart-items li{
+    margin-bottom:12px;
+    padding:10px;
+    background:rgba(255,255,255,0.05);
+    border-radius:8px;
+    font-size:14px;
+    line-height:1.4;
+    word-break:break-word;
+}
 .checkout{
     background:var(--primary);
     border:none;
@@ -238,7 +220,6 @@ header p{margin-top:15px;}
     font-weight:600;
     cursor:pointer;
 }
-
 /* CONFETE */
 #confete{
     position:absolute;
@@ -249,14 +230,12 @@ header p{margin-top:15px;}
     pointer-events:none;
     z-index:0;
 }
-
 .pagamento-box{
     margin-top:15px;
     display:flex;
     flex-direction:column;
     gap:10px;
 }
-
 .pagamento-box select,
 .pagamento-box input{
     padding:10px;
@@ -264,14 +243,12 @@ header p{margin-top:15px;}
     border:none;
     font-size:14px;
 }
-
 .checkout-box{
     margin-top:20px;
     display:flex;
     flex-direction:column;
     gap:10px;
 }
-
 .checkout-box input,
 .checkout-box select{
     padding:12px;
@@ -279,11 +256,9 @@ header p{margin-top:15px;}
     border:none;
     font-size:14px;
 }
-
 .checkout-box h3{
     margin-top:10px;
 }
-
 .modal-sucesso{
     position:fixed;
     inset:0;
@@ -296,12 +271,10 @@ header p{margin-top:15px;}
     transition:.3s;
     z-index:2000;
 }
-
 .modal-sucesso.active{
     opacity:1;
     visibility:visible;
 }
-
 .modal-box{
     background:#111;
     padding:40px;
@@ -310,7 +283,6 @@ header p{margin-top:15px;}
     box-shadow:0 0 40px rgba(255,234,0,.5);
     animation:pop .4s ease;
 }
-
 .modal-box button{
     margin-top:20px;
     padding:12px 25px;
@@ -320,7 +292,6 @@ header p{margin-top:15px;}
     font-weight:600;
     cursor:pointer;
 }
-
 @keyframes pop{
     from{transform:scale(.7);opacity:0;}
     to{transform:scale(1);opacity:1;}
@@ -331,125 +302,201 @@ header p{margin-top:15px;}
     gap:8px;
     font-weight:600;
 }
-
 /* =========================
    RESPONSIVIDADE
 ========================= */
-
 /* Tablets */
 @media (max-width: 1024px){
-
     .grid{
         grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
     }
-
     header h1{
         font-size:32px;
     }
-
     .cart{
         width:320px;
     }
 }
-
 /* Celulares grandes */
 @media (max-width: 768px){
-
     .nav-content{
-        flex-direction:column;
+        flex-wrap:wrap;
         gap:10px;
-        text-align:center;
     }
-
+    nav h2{
+        font-size:18px;
+    }
+    .nav-links{
+        gap:10px;
+    }
     nav a{
         margin-left:0;
+        font-size:14px;
     }
-
+    .carrinho-text{
+        display:none;
+    }
     header{
-        padding-top:160px;
+        padding-top:120px;
         padding-bottom:70px;
     }
-
     header h1{
         font-size:26px;
         padding:0 15px;
     }
-
     header p{
         font-size:14px;
         padding:0 15px;
     }
-
     .grid{
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
         gap:15px;
         padding:0 10px;
     }
-
     .card{
-        padding:18px;
+        padding:15px;
     }
-
+    .card h3{
+        font-size:15px;
+    }
+    .price{
+        font-size:18px;
+    }
     .section{
         padding:60px 15px;
     }
-
     .cart{
         width:100%;
         right:-100%;
+        padding:20px;
     }
-
     .cart.active{
         right:0;
     }
+    .cart-header h3{
+        font-size:18px;
+    }
+    #cart-items li{
+        font-size:13px;
+        padding:8px;
+    }
 }
-
 /* Celulares pequenos */
 @media (max-width: 480px){
-
-    header h1{
-        font-size:22px;
+    nav{
+        padding:10px 0;
     }
-
+    .nav-content{
+        padding:10px 15px;
+    }
+    nav h2{
+        font-size:16px;
+    }
+    header{
+        padding-top:100px;
+        padding-bottom:50px;
+    }
+    header h1{
+        font-size:20px;
+        line-height:1.3;
+    }
+    header p{
+        font-size:12px;
+    }
+    .carnaval-banner{
+        font-size:12px;
+        padding:12px;
+    }
     .grid{
         grid-template-columns:1fr;
+        gap:12px;
     }
-
+    .card{
+        padding:15px;
+    }
+    .card h3{
+        font-size:16px;
+    }
+    .price{
+        font-size:18px;
+        margin:10px 0;
+    }
     .btn{
         width:100%;
+        padding:12px 20px;
+        font-size:14px;
     }
-
+    .section{
+        padding:40px 10px;
+    }
+    .section h2{
+        font-size:22px;
+        margin-bottom:25px;
+    }
+    .cart{
+        padding:15px;
+    }
+    .cart-header{
+        margin-bottom:15px;
+    }
+    .cart-header h3{
+        font-size:16px;
+    }
+    .close-cart{
+        width:30px;
+        height:30px;
+        font-size:16px;
+    }
     .checkout{
         width:100%;
+        font-size:15px;
+        padding:14px;
     }
-
+    .checkout-box h3{
+        font-size:15px;
+        margin-top:8px;
+    }
     .checkout-box input,
     .checkout-box select{
-        font-size:13px;
-        padding:10px;
+        font-size:14px;
+        padding:12px;
     }
-
+    #cart-items li{
+        font-size:12px;
+        padding:8px;
+        margin-bottom:8px;
+    }
     .modal-box{
         width:90%;
         padding:25px;
     }
+    .modal-box h2{
+        font-size:20px;
+    }
+    .modal-box p{
+        font-size:14px;
+    }
 }
-
 .carrinho-text {
-  color: #ffffff;       /* muda a cor */
-  font-weight: bold;    /* deixa em negrito */
-  font-style: normal;   /* deixa em itálico */
-  font-size: 16px;      /* tamanho da fonte */
+  color: #ffffff;
+  font-weight: bold;
+  font-style: normal;
+  font-size: 16px;
 }
-
+.card h3{
+    font-size:clamp(16px, 3vw, 20px);
+}
+.card .btn{
+    width:100%;
+    margin-top:15px;
+}
 </style>
 </head>
 <body>
-
 <nav>
 <div class="nav-content">
 <h2>🎭 Distribuidora de Bebidas LS</h2>
-<div>
+<div class="nav-links">
 <a href="#combos">Combos</a>
 <button class="cart-btn" onclick="abrirCarrinho()">
     🛒 <span class="carrinho-text">Carrinho</span>
@@ -458,27 +505,20 @@ header p{margin-top:15px;}
 </div>
 </div>
 </nav>
-
 <header>
-
 <canvas id="confete"></canvas>
-
-<h1>🎉 Carnaval Gelado é na LS Distribuidora 🎭</h1>
+<h1>🎉 Carnaval Gelado é na Distribuidora LS 🎭</h1>
 <p>Delivery até 00h • Promoções Explosivas • Estoque Limitado</p>
 <a href="https://wa.me/5548998425041" class="btn">Pedir no WhatsApp</a>
 </header>
-
 <section class="carnaval-banner">
 🔥 ESPECIAL DE CARNAVAL • ENTREGA TURBINADA • OFERTAS LIMITADAS 🔥
 </section>
-
 <section class="section" id="combos">
 <h2>Combos do Bloco</h2>
 <div class="grid" id="product-grid"></div>
 </section>
-
 <div class="overlay" id="overlay" onclick="fecharCarrinho()"></div>
-
 <div class="cart" id="cart">
 <div class="cart-header">
 <h3>🛒 Seu Carrinho</h3>
@@ -486,42 +526,26 @@ header p{margin-top:15px;}
 </div>
 <ul id="cart-items"></ul>
 <p><strong>Total: R$ <span id="cart-total">0.00</span></strong></p>
-
-
-
 <div class="checkout-box">
-
     <h3>Seus Dados</h3>
-
     <input type="text" id="nomeCliente" placeholder="Seu nome" required>
     <input type="text" id="telefoneCliente" placeholder="Seu telefone" required>
     <input type="text" id="enderecoCliente" placeholder="Endereço de entrega" required>
-
     <h3>Forma de Pagamento</h3>
-
 <select id="pagamento">
     <option value="PIX">PIX </option>
     <option value="Dinheiro">Dinheiro</option>
     <option value="Crédito">Cartão de Crédito</option>
     <option value="Débito">Cartão de Débito</option>
 </select>
-
-
     <input type="text" id="troco" placeholder="Precisa de troco? Para quanto?" style="display:none;">
-
 </div>
-
-
-
 <button class="checkout" onclick="finalizarPedido()">Finalizar Pedido</button>
 </div>
-
-
 <script>
 /* =========================
    PRODUTOS
 ========================= */
-
 const produtos = [
 {nome:"🍺 Heineken 12un",preco:89.90},
 {nome:"🍺 Budweiser 12un",preco:79.90},
@@ -532,9 +556,7 @@ const produtos = [
 {nome:"🎉 Combo Bloco",preco:149.90},
 {nome:"🎭 Kit Carnaval",preco:129.90}
 ];
-
 const grid = document.getElementById("product-grid");
-
 produtos.forEach(prod=>{
     const card=document.createElement("div");
     card.className="card";
@@ -545,18 +567,14 @@ produtos.forEach(prod=>{
     `;
     grid.appendChild(card);
 });
-
 /* =========================
    CARRINHO
 ========================= */
-
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
 function updateCart(){
     const lista=document.getElementById("cart-items");
     lista.innerHTML="";
     let total=0;
-
     cart.forEach((item,index)=>{
         total+=item.preco;
         const li=document.createElement("li");
@@ -568,45 +586,35 @@ function updateCart(){
         `;
         lista.appendChild(li);
     });
-
     document.getElementById("cart-total").innerText=total.toFixed(2);
     document.getElementById("cart-count").innerText=cart.length;
     localStorage.setItem("cart",JSON.stringify(cart));
 }
-
 function addToCart(nome,preco){
     cart.push({nome,preco});
     updateCart();
 }
-
 function removeItem(index){
     cart.splice(index,1);
     updateCart();
 }
-
 function abrirCarrinho(){
     document.getElementById("cart").classList.add("active");
     document.getElementById("overlay").classList.add("active");
 }
-
 function fecharCarrinho(){
     document.getElementById("cart").classList.remove("active");
     document.getElementById("overlay").classList.remove("active");
 }
-
 /* =========================
    CONFETE HEADER
 ========================= */
-
 const canvas = document.getElementById("confete");
 const ctx = canvas.getContext("2d");
 const header = document.querySelector("header");
-
 canvas.width = header.offsetWidth;
 canvas.height = header.offsetHeight;
-
 let pieces=[];
-
 for(let i=0;i<120;i++){
     pieces.push({
         x:Math.random()*canvas.width,
@@ -616,7 +624,6 @@ for(let i=0;i<120;i++){
         color:["#ffea00","#ff4081","#00e5ff","#00ff88"][Math.floor(Math.random()*4)]
     });
 }
-
 function drawConfete(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     pieces.forEach(p=>{
@@ -626,23 +633,22 @@ function drawConfete(){
         ctx.fillStyle=p.color;
         ctx.fill();
         ctx.globalAlpha = 1;
-
         p.y+=1;
         if(p.y>canvas.height){p.y=-10;}
     });
     requestAnimationFrame(drawConfete);
 }
-
 drawConfete();
-
+/* Ajustar canvas no resize */
+window.addEventListener('resize', function(){
+    canvas.width = header.offsetWidth;
+    canvas.height = header.offsetHeight;
+});
 /* =========================
    EXPLOSÃO
 ========================= */
-
 function explosaoConfete(){
-
     let explosao=[];
-
     for(let i=0;i<80;i++){
         explosao.push({
             x: canvas.width/2,
@@ -653,10 +659,8 @@ function explosaoConfete(){
             color:["#ffea00","#ff4081","#00e5ff","#00ff88"][Math.floor(Math.random()*4)]
         });
     }
-
     let interval=setInterval(()=>{
         ctx.clearRect(0,0,canvas.width,canvas.height);
-
         explosao.forEach(p=>{
             ctx.globalAlpha=0.8;
             ctx.beginPath();
@@ -664,26 +668,20 @@ function explosaoConfete(){
             ctx.fillStyle=p.color;
             ctx.fill();
             ctx.globalAlpha=1;
-
             p.x+=p.speedX;
             p.y+=p.speedY;
         });
-
     },20);
-
     setTimeout(()=>{
         clearInterval(interval);
         drawConfete();
     },800);
 }
-
 /* =========================
    PAGAMENTO
 ========================= */
-
 const pagamentoSelect = document.getElementById("pagamento");
 const trocoInput = document.getElementById("troco");
-
 pagamentoSelect.addEventListener("change", function(){
     if(this.value === "Dinheiro"){
         trocoInput.style.display="block";
@@ -692,88 +690,66 @@ pagamentoSelect.addEventListener("change", function(){
         trocoInput.value="";
     }
 });
-
 /* =========================
    FINALIZAR PEDIDO
 ========================= */
-
 function finalizarPedido(){
-
     if(cart.length===0){
         alert("Seu carrinho está vazio!");
         return;
     }
-
     const nome=document.getElementById("nomeCliente").value;
     const telefone=document.getElementById("telefoneCliente").value;
     const endereco=document.getElementById("enderecoCliente").value;
     const pagamento=pagamentoSelect.value;
-
     if(!nome || !telefone || !endereco){
         alert("Preencha todos os dados!");
         return;
     }
-
     let total=0;
     let mensagem="🛒 *NOVO PEDIDO - DISTRIBUIDORA LS* 🍻\n\n";
     mensagem+=`👤 Cliente: ${nome}\n📞 Telefone: ${telefone}\n📍 Endereço: ${endereco}\n\n`;
     mensagem+="📦 *Itens do Pedido:*\n";
-
     cart.forEach(item=>{
         mensagem+=`• ${item.nome} - R$ ${item.preco.toFixed(2)}\n`;
         total+=item.preco;
     });
-
     let taxaEntrega=5;
     total+=taxaEntrega;
-
     mensagem+=`\n🚚 Taxa de entrega: R$ ${taxaEntrega.toFixed(2)}`;
     mensagem+=`\n💰 *Total Final: R$ ${total.toFixed(2)}*`;
     mensagem+=`\n💳 Pagamento: ${pagamento}`;
-
     if(pagamento==="Dinheiro" && trocoInput.value){
         mensagem+=`\n💵 Troco para: R$ ${trocoInput.value}`;
     }
-
     mensagem+="\n\n⏳ Aguardando confirmação do pedido!";
-
     const confirmar=confirm("Deseja enviar o pedido para o WhatsApp?");
     if(!confirmar) return;
-
     explosaoConfete();
-
     if(navigator.vibrate){
         navigator.vibrate([200,100,200]);
     }
-
     const audio=document.getElementById("somSucesso");
     audio.currentTime=0;
     audio.play().catch(()=>{});
-
     const telefoneLoja="5548998425041";
     const url=`https://wa.me/${telefoneLoja}?text=${encodeURIComponent(mensagem)}`;
-
     setTimeout(()=>{
         window.open(url,"_blank");
         mostrarModal();
     },600);
-
     cart=[];
     updateCart();
 }
-
 /* =========================
    MODAL
 ========================= */
-
 function mostrarModal(){
     document.getElementById("modalSucesso").classList.add("active");
 }
-
 function fecharModal(){
     document.getElementById("modalSucesso").classList.remove("active");
 }
-
 updateCart();
 </script>
 <!-- MODAL SUCESSO -->
@@ -785,11 +761,9 @@ updateCart();
         <button onclick="fecharModal()">Fechar</button>
     </div>
 </div>
-
 <!-- SOM -->
 <audio id="somSucesso">
     <source src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3" type="audio/mpeg">
 </audio>
-
 </body>
 </html>
